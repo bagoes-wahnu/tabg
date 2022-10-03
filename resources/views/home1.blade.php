@@ -143,8 +143,8 @@
                     {{-- <th>No TABG</th> --}}
                     <th>Nama Pemohon</th>
                     <th>Alamat Persil</th>
-                    <th>Nama Bangunan</th>
-                    <th>No Telp</th>
+                    <th>Penggunaan Bangunan</th>
+                    <th>No Telp Pemohon</th>
                     <th>Action</th>
                   </tr>
                   </thead>
@@ -356,21 +356,18 @@
         "processing": true,
         "serverSide": false,
         "ajax": {
-            "url": '',
+            "url": '{{ route('tabg.json') }}',
             "dataType": "json",
             "type": "GET",
             "data":{ _token: "{{csrf_token()}}"}
         },
         "columns": [
             // {data: 'DT_RowIndex', name: 'id'},
-            {data: 'id', name: 'id'},
-            // {data: 'no_skrk'},
-            {data: 'nama_pengadu'},
-            {data: 'alamat_pengadu'},
-            {data: 'nama_teradu'},
-            {data: 'alamat_teradu'},
-            {data: 'kelurahan'},
-            {data: 'kecamatan'},
+            {data: 'gid', name: 'gid'},
+            {data: 'nama_pemohon'},
+            {data: 'alamat_persil'},
+            {data: 'penggunaan_bangunan'},
+            {data: 'no_telp_pemohon'},
             {data: 'action', orderable: false, searcable: false}
         ],
     });

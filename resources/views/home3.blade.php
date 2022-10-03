@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Data Pertelaan</title>
+  <title>Data TABG</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -143,59 +143,59 @@
                   <table class="table">
                     <tr>
                       <th>Tanggal TABG</th>
-                      {{-- <td>{{ $aspects->no_imb }}</td> --}}
+                      <td>{{ $aspects->tgl_tabg }}</td>
                     </tr>
                     <tr>
                       <th>Nama Pemohon TABG</th>
-                      {{-- <td>{{ $aspects->kelurahan }}</td> --}}
+                      <td>{{ $aspects->nama_pemohon }}</td>
                     </tr>
                     <tr>
                       <th>No Telp Pemohon</th>
-                      {{-- <td>{{ $aspects->nama_pengadu }}</td> --}}
+                      <td>{{ $aspects->no_telp_pemohon }}</td>
                     </tr>
                     <tr>
                       <th>Nama Kuasa</th>
-                      {{-- <td>{{ $aspects->alamat_pengadu }}</td> --}}
+                      <td>{{ $aspects->nama_kuasa }}</td>
                     </tr>
                     <tr>
                       <th>No Telp Kuasa</th>
-                      {{-- <td>{{ $aspects->nama_pengadu }}</td> --}}
+                      <td>{{ $aspects->no_telp_kuasa }}</td>
                     </tr>
                     <tr>
                       <th>Kode Verifikasi</th>
-                      {{-- <td>{{ $aspects->alamat_teradu }}</td> --}}
+                      <td>{{ $aspects->kode_verifikasi }}</td>
                     </tr>
                     <tr>
                       <th>Nama Proyek</th>
-                      {{-- <td>{{ $aspects->kecamatan }}</td> --}}
+                      <td>{{ $aspects->nama_proyek }}</td>
                     </tr>
                     <tr>
                       <th>Penggunaan Bangunan</th>
-                      {{-- <td>{{ $aspects->kecamatan }}</td> --}}
+                      <td>{{ $aspects->penggunaan_bangunan }}</td>
                     </tr>
                     <tr>
                       <th>Alamat Persil</th>
-                      {{-- <td>{{ $aspects->keterangan }}</td> --}}
+                      <td>{{ $aspects->alamat_persil }}</td>
                     </tr>
                     <tr>
                       <th>Kecamatan</th>
-                      {{-- <td>{{ $aspects->kecamatan }}</td> --}}
+                      <td>{{ $aspects->kecamatan }}</td>
                     </tr>
                     <tr>
                       <th>Kelurahan</th>
-                      {{-- <td>{{ $aspects->kecamatan }}</td> --}}
+                      <td>{{ $aspects->kelurahan }}</td>
                     </tr>
                     <tr>
                       <th>No IMB</th>
-                      {{-- <td>{{ $aspects->status_pengaduan }}</td> --}}
+                      <td>{{ $aspects->no_imb }}</td>
                     </tr>
                     <tr>
                       <th>Tanggal dan Jam Sidang</th>
-                      {{-- <td>{{ $aspects->keterangan }}</td> --}}
+                      <td>{{ $aspects->tgl_jam_sidang }}</td>
                     </tr>
                     <tr>
                       <th>Tempat Sidang</th>
-                      {{-- <td>{{ $aspects->keterangan }}</td> --}}
+                      <td>{{ $aspects->tempat_sidang }}</td>
                     </tr>
                     <tr>
                       <th><hr></th>
@@ -203,19 +203,19 @@
                     </tr>
                     <tr>
                       <th>File Gambar ARS</th>
-                      <td><a href="{{asset("storage/file_dokumen/$aspects->file_dokumen")}}" target="_blank">{{ $aspects->file_dokumen }}</a></td>
+                      <td><a href="{{asset("storage/file_gambar_ars/$aspects->file_gambar_ars")}}" target="_blank">{{ $aspects->file_gambar_ars }}</a></td>
                     </tr>
                     <tr>
                       <th>File Gambar STR</th>
-                      <td><a href="{{asset("storage/file_lapangan/$aspects->file_lapangan")}}" target="_blank">{{ $aspects->file_lapangan }}</a></td>
+                      <td><a href="{{asset("storage/file_gambar_str/$aspects->file_gambar_str")}}" target="_blank">{{ $aspects->file_gambar_str }}</a></td>
                     </tr>
                     <tr>
                       <th>File Gambar MEP</th>
-                      <td><a href="{{asset("storage/file_lapangan/$aspects->file_lapangan")}}" target="_blank">{{ $aspects->file_lapangan }}</a></td>
+                      <td><a href="{{asset("storage/file_gambar_mep/$aspects->file_gambar_mep")}}" target="_blank">{{ $aspects->file_gambar_mep }}</a></td>
                     </tr>
                     <tr>
                       <th>File Laporan Struktur</th>
-                      <td><a href="{{asset("storage/file_lapangan/$aspects->file_lapangan")}}" target="_blank">{{ $aspects->file_lapangan }}</a></td>
+                      <td><a href="{{asset("storage/file_laporan_struktur/$aspects->file_laporan_struktur")}}" target="_blank">{{ $aspects->file_laporan_struktur }}</a></td>
                     </tr>
                   </table>
                 </div>
@@ -401,7 +401,7 @@
           "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
           "Authorization":"Bearer " + localStorage.getItem("token")
         },
-        url: baseUrl+"api/tower/show_json/"+gid,
+        url: baseUrl+"api/tabg/show_json/"+gid,
         success: function (response) {
           res = response;
           if (res.no_skrk == null) {res.no_skrk = ""}

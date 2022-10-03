@@ -17,5 +17,5 @@ class Tabg extends Model
 
     // public $incrementing = false;
 
-    protected $table = 'imb';
+    protected $table = 'tabg';
 }
