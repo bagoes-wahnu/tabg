@@ -20,6 +20,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::get('/tabg/json', [TabgController::class,'json'])->name('tabg.json');
+Route::get('/tabg/search_json', [TabgController::class,'search_json'])->name('tabg.search.json');
 Route::get('/tabg/show_json/{gid}', [TabgController::class,'show_json'])->name('tabg.show.json');
 Route::post('/tabg/store_json/{gid}', [TabgController::class,'store_json'])->name('tabg.store.json');
 Route::delete('/tabg/delete_json/{gid}', [TabgController::class,'delete_json'])->name('tabg.delete.json');

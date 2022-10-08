@@ -15,7 +15,9 @@
   <link rel="stylesheet" href="{{asset("plugins/datatables-buttons/css/buttons.bootstrap4.min.css")}}">
   <link rel="stylesheet" href="{{asset("plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css")}}">
   <link rel="stylesheet" href="{{asset("plugins/toastr/toastr.min.css")}}">
+  <link rel="stylesheet" href="{{asset('plugins/select2/css/select2.min.css')}}">
   <link rel="stylesheet" href="{{asset("dist/css/adminlte.min.css")}}">
+  <link rel="stylesheet" href="{{asset('plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css')}}">
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
@@ -123,14 +125,51 @@
             <div class="card">
               <div class="card-header">
                 <div class="row">
-                    <div class="col-6 mt-2">
-                        <h3 class="card-title">List Semua Data TABG</h3>
+                  <div class="col-md-10 offset-md-1">
+                    {{-- <form action="{{ route('pertelaan.search.json') }}" method="get"> --}}
+                    <form action="{{url("/api/tabg/search_json")}}" id="input-search" method="get">
+                    <div class="row">
+                      <div class="col-3">
+                        <div class="form-group">
+                          <label>Pilih Kolom:</label>
+                          <select class="select2" name="kolom" id="kolom" style="width: 100%;">
+                              <option value="gid">GID</option>
+                              <option value="nama_pemohon">Nama Pemohon</option>
+                              <option value="tgl_tabg">Tanggal TABG</option>
+                              <option value="no_telp_pemohon">No Telp Pemohon</option>
+                              <option value="nama_kuasa">Nama Kuasa</option>
+                              <option value="no_telp_kuasa">No Telp Kuasa</option>
+                              <option value="kode_verifikasi">Kode Verifikasi</option>
+                              <option value="nama_proyek">Nama Proyek</option>
+                              <option value="penggunaan_bangunan">Penggunaan Bangunan</option>
+                              <option value="alamat_persil">Alamat Persil</option>
+                              <option value="kelurahan">Kelurahan</option>
+                              <option value="kecamatan">Kecamatan</option>
+                              <option value="no_imb">No IMB</option>
+                              <option value="tanggal_jam_sidang">Tanggal Jam Sidang</option>
+                              <option value="tempat_sidang">Tempat Sidang</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col-3">
+                        <div class="form-group">
+                          <label>Masukkan Nilai:</label>
+                          <input type="text" name="nilai" id="nilai" class="form-control"/>
+                        </div>
+                      </div>
+                      <div class="col-3">
+                        <div class="form-group">
+                          <label>Cari Data:</label>
+                          <div class="input-group-append">
+                              <button type="submit" class="btn btn-default">
+                                  <i class="fa fa-search"></i>
+                              </button>
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                    {{-- <div class="col-6 text-right">
-                        <a class="btn btn-success" onclick="create_json()" data-toggle="modal" data-target="#modal-create">
-                            Tambah Data
-                        </a>
-                    </div> --}}
+                    </form>
+                  </div>
                 </div>
               </div>
               <!-- /.card-header -->
@@ -249,7 +288,31 @@
             <div class="col-md-12">
               <div class="card card-primary">
                 <div class="card-body" id="edit-modal">
-
+                  <form action="{{url("/api/tabg/store_json")}}" id="input-tabg" method="POST" enctype="multipart/form-data">
+                    <div class="form-group">
+                      <label>Tanggal TABG</label>
+                      <div class="input-group date" id="tgl_tabg" data-target-input="nearest">
+                          <input type="text" name="tgl_tabg" value="input_tgl_tabg" class="form-control datetimepicker-input" data-target="#tgl_tabg"/>
+                          <div class="input-group-append" data-target="#tgl_tabg" data-toggle="datetimepicker">
+                              <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                          </div>
+                      </div>
+                    </div>
+                    <div id="edit-modal1">
+                        
+                    </div>
+                    <div class="form-group">
+                      <label>Tanggal Jam Sidang</label>
+                      <div class="input-group date" id="tgl_jam_sidang" data-target-input="nearest">
+                          <input type="text" name="tgl_jam_sidang" id="input_tgl_jam_sidang" class="form-control datetimepicker-input" data-target="#tgl_jam_sidang"/>
+                          <div class="input-group-append" data-target="#tgl_jam_sidang" data-toggle="datetimepicker">
+                              <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                          </div>
+                      </div>
+                    </div>
+                    <div id="edit-modal2">
+                        
+                    </div>
                 </div>
                 <!-- /.card-body -->
               </div>
@@ -307,42 +370,41 @@
 <script src="{{asset("plugins/datatables-buttons/js/buttons.colVis.min.js")}}"></script>
 <script src="{{asset("plugins/sweetalert2/sweetalert2.min.js")}}"></script>
 <script src="{{asset("plugins/toastr/toastr.min.js")}}"></script>
+<script src="{{asset('plugins/select2/js/select2.full.min.js')}}"></script>
 <!-- AdminLTE App -->
 <script src="{{asset("dist/js/adminlte.min.js")}}"></script>
 <!-- Page specific script -->
+<script src="{{asset('plugins/daterangepicker/daterangepicker.js')}}"></script>
+<script src="{{asset('plugins/moment/moment.min.js')}}"></script>
+<script src="{{asset('plugins/inputmask/jquery.inputmask.min.js')}}"></script>
+<script src="{{asset('plugins/bootstrap-switch/js/bootstrap-switch.min.js')}}"></script>
+<script src="{{asset('plugins/bs-stepper/js/bs-stepper.min.js')}}"></script>
+<script src="{{asset('plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js')}}"></script>
 <script>
+  $(function () {
+    $('.select2').select2()
+  });
 	let baseUrl = "{{asset('/')}}";
 	console.log(baseUrl);
-  $('.toastrDefaultSuccess').click(function() {
-    toastr.success('Data Di Update.')
-  });
-	$(document).ready(function () {
-		// $("#example1").DataTable({
-		//   "responsive": true, "lengthChange": false, "autoWidth": false,
-		//   "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-		// }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-        $('#id_create').val('');
-        $('#kelurahan_create').val('');
-        $('#kecamatan_create').val('');
-        console.log($('#id_create').val());
-		table()
-	});
-  // $('body').on('click', '.edit', function () {
-  //     var product_id = $(this).data('gid');
-  //     console.log(product_id);
-  //     $.get(baseUrl+"api/tower/show_json" +'/' + product_id , function (data) {
-  //           $('#modelHeading').html("Edit Product");
-  //           $('#saveBtn').val("edit-user");
-  //           $('#ajaxModel').modal('show');
-  //           $('#product_id').val(data.id);
-  //           $('#name').val(data.name);
-  //           $('#detail').val(data.detail);
-  //       })
+  // $('.toastrDefaultSuccess').click(function() {
+  //   toastr.success('Data Di Update.')
   // });
+	$(document).ready(function () {
+    $('#id_create').val('');
+    $('#kelurahan_create').val('');
+    $('#kecamatan_create').val('');
+    console.log($('#id_create').val());
+		table()
+    $('#tgl_tabg').datetimepicker({
+        format: 'DD/MM/yyyy'
+    });
+    $('#tgl_jam_sidang').datetimepicker({
+        format: 'DD/MM/yyyy HH:mm',
+        // locale: 'in',
+        icons: { time: 'far fa-clock' }
+    });
+	});
   function table() {
-    // $('#id_create').val('');
-    // $('#kelurahan_create').val('');
-    // $('#kecamatan_create').val('');
     console.log($('#id_create').val());
     $('#example2').DataTable({
         "bDestroy": true,
@@ -372,7 +434,7 @@
         ],
     });
   }
-  function show_json(id){
+  function show_json(gid){
     // console.log($('#gid').val(data.gid));
     console.log(id)
     $.ajax({
@@ -543,18 +605,18 @@
         `
     )
   }
-  function edit_json(id){
+  function edit_json(gid){
     // console.log($('#gid').val(data.gid));
-    console.log(id)
-    $('#id').val(id)
-    console.log($('#id').val());
+    // console.log(gid)
+    $('#gid').val(gid)
+    console.log($('#gid').val());
     $.ajax({
         type: "GET",
         headers: {
           "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
           "Authorization":"Bearer " + localStorage.getItem("token")
         },
-        url: baseUrl+"api/pengaduan/show_json/"+id,
+        url: baseUrl+"api/tabg/show_json/"+gid,
         success: function (response) {
           res = response;
           if (res.no_skrk == null) {res.no_skrk = ""}
@@ -573,34 +635,44 @@
           if (res.file_progress2 == null) {res.file_progress2 = ""}
           if (res.file_progress3 == null) {res.file_progress3 = ""}
           console.log(res);
-          $('#edit-modal').html(
-            `<form action="`+baseUrl+`"api/pengaduan/store_json/"`+id+`" id="input-pengaduan" method="POST" enctype="multipart/form-data">
-            <input type="hidden" name="id" id="id" class="form-control" value="`+res.id+`">
-            <input type="hidden" name="emp_file_lapangan" id="emp_file_lapangan">
-            <input type="hidden" name="emp_file_dokumen" id="emp_file_dokumen">
+          $('#edit-modal1').html(
+            `
+            <input type="hidden" name="gid" id="gid" class="form-control" value="`+res.gid+`">
+            <input type="hidden" name="emp_file_gambar_ars" id="emp_file_gambar_ars">
+            <input type="hidden" name="emp_file_gambar_str" id="emp_file_gambar_str">
+            <input type="hidden" name="emp_file_gambar_mep" id="emp_file_gambar_mep">
+            <input type="hidden" name="emp_file_laporan_struktur" id="emp_file_laporan_struktur">
             <div class="form-group">
-                <label for="inputClientCompany">No SKRK</label>
-                <input type="text" name="no_skrk" id="no_skrk" value="`+res.no_skrk+`" class="form-control">
+                <label for="inputClientCompany">Nama Pemohon</label>
+                <input type="text" name="nama_pemohon" id="nama_pemohon" value="`+res.nama_pemohon+`" class="form-control">
             </div>
             <div class="form-group">
-                <label for="inputClientCompany">No IMB</label>
-                <input type="text" name="no_imb" id="no_imb" value="`+res.no_imb+`" class="form-control">
+                <label for="inputClientCompany">No Telp Pemohon</label>
+                <input type="number" name="no_telp_pemohon" id="no_telp_pemohon" value="`+res.no_telp_pemohon+`" class="form-control">
             </div>
             <div class="form-group">
-              <label for="inputClientCompany">Nama Pengadu</label>
-              <input type="text" name="nama_pengadu" id="nama_pengadu" value="`+res.nama_pengadu+`" class="form-control">
+                <label for="inputClientCompany">Nama Kuasa</label>
+                <input type="text" name="nama_kuasa" id="nama_kuasa" value="`+res.nama_kuasa+`" class="form-control">
             </div>
             <div class="form-group">
-              <label for="inputDescription">Alamat Pengadu</label>
-              <textarea name="alamat_pengadu" id="alamat_pengadu" class="form-control" rows="4">`+res.alamat_pengadu+`</textarea>
+                <label for="inputClientCompany">No Telp Kuasa</label>
+                <input type="number" name="no_telp_kuasa" id="no_telp_kuasa" value="`+res.no_telp_kuasa+`" class="form-control">
             </div>
             <div class="form-group">
-              <label for="inputClientCompany">Nama Teradu</label>
-              <input type="text" name="nama_teradu" id="nama_teradu" value="`+res.nama_teradu+`" class="form-control">
+                <label for="inputClientCompany">Kode Verifikasi</label>
+                <input type="text" name="kode_verifikasi" id="kode_verifikasi" value="`+res.kode_verifikasi+`" class="form-control">
             </div>
             <div class="form-group">
-              <label for="inputDescription">Alamat Teradu</label>
-              <textarea name="alamat_teradu" id="alamat_teradu" class="form-control" rows="4">`+res.alamat_teradu+`</textarea>
+                <label for="inputClientCompany">Nama Proyek</label>
+                <input type="text" name="nama_proyek" id="nama_proyek" value="`+res.nama_proyek+`" class="form-control">
+            </div>
+            <div class="form-group">
+              <label for="inputClientCompany">Penggunaan Bangunan</label>
+              <input type="text" name="penggunaan_bangunan" id="penggunaan_bangunan" value="`+res.penggunaan_bangunan+`" class="form-control">
+            </div>
+            <div class="form-group">
+              <label for="inputDescription">Alamat Persil</label>
+              <textarea name="alamat_persil" id="alamat_persil" class="form-control" rows="4">`+res.alamat_persil+`</textarea>
             </div>
             <div class="form-group">
                 <label for="inputClientCompany">Kelurahan</label>
@@ -611,36 +683,39 @@
                 <input type="text" name="kecamatan" id="kecamatan" class="form-control" value="`+res.kecamatan+`">
             </div>
             <div class="form-group">
-                <label for="inputClientCompany">Latitude</label>
-                <input type="text" name="latitude" id="latitude" value="`+res.latitude+`" class="form-control">
+                <label for="inputClientCompany">No IMB</label>
+                <input type="text" name="no_imb" id="no_imb" value="`+res.no_imb+`" class="form-control">
             </div>
-            <div class="form-group">
-                <label for="inputClientCompany">Longitude</label>
-                <input type="text" name="longitude" id="longitude" value="`+res.longitude+`" class="form-control">
-            </div>
-            <div class="form-group">
-              <label for="inputDescription">Keterangan</label>
-              <textarea name="keterangan" id="keterangan" class="form-control" rows="4">`+res.keterangan+`</textarea>
-            </div>
-            <div class="form-group">
-              <label for="inputStatus">Status Pengaduan</label>
-              <select id="status_pengaduan" name="status_pengaduan" class="form-control custom-select">
-                <option value="`+res.status_pengaduan+`" selected>`+res.status_pengaduan+`</option>
-                <option value="Proses">Proses</option>
-                <option value="Selesai">Selesai</option>
-              </select>
-            </div>
-            <div class="form-group">
-                <label for="inputProjectLeader">File Dokumen</label>
-                <input type="file" name="file_dokumen" id="file_dokumen" class="form-control" value="`+res.file_dokumen+`">
-            </div>
-            <div class="form-group">
-                <label for="inputProjectLeader">Foto Lapangan</label>
-                <input type="file" name="file_lapangan" id="file_lapangan" class="form-control" value="`+res.file_lapangan+`">
-            </div>`
+            `
           )
-          $("#emp_file_lapangan").val(res.foto_lapangan)
-          $("#emp_file_dokumen").val(res.foto_dokumen)
+          $('#edit-modal2').html(
+            `
+            <div class="form-group">
+                <label for="inputClientCompany">Tempat Sidang</label>
+                <input type="text" name="tempat_sidang" id="tempat_sidang" value="`+res.tempat_sidang+`" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="inputProjectLeader">File Gambar ARS</label>
+                <input type="file" name="file_gambar_ars" id="file_gambar_ars" class="form-control" value="`+res.file_gambar_ars+`">
+            </div>
+            <div class="form-group">
+                <label for="inputProjectLeader">File Gambar STR</label>
+                <input type="file" name="file_gambar_str" id="file_gambar_str" class="form-control" value="`+res.file_gambar_str+`">
+            </div>
+            <div class="form-group">
+                <label for="inputProjectLeader">File Gambar MEP</label>
+                <input type="file" name="file_gambar_mep" id="file_gambar_mep" class="form-control" value="`+res.file_gambar_mep+`">
+            </div>
+            <div class="form-group">
+                <label for="inputProjectLeader">File Laporan Struktur</label>
+                <input type="file" name="file_laporan_struktur" id="file_laporan_struktur" class="form-control" value="`+res.file_laporan_struktur+`">
+            </div>
+            `
+          )
+          $("#emp_file_gambar_ars").val(res.file_gambar_ars)
+          $("#emp_file_gambar_str").val(res.file_gambar_str)
+          $("#emp_file_gambar_mep").val(res.file_gambar_mep)
+          $("#emp_file_laporan_struktur").val(res.file_laporan_struktur)
           $('.modal-footer-edit').html(
             `<button type="button" class="btn btn-default ml-3" data-dismiss="modal">Close</button>
             <button type="button" onclick="store_json()" class="btn btn-success float-right mb-3 mr-3 toastrDefaultSuccess">Save changes</button>
@@ -651,34 +726,34 @@
   }
   function store_json(param){
     console.log(param);
-    console.log($('#id_create').val());
-    console.log($('#id').val());
-    if (param == 'create') {
-        var data = {
-            id: $("#id_create").val(),
-            no_skrk: $("#no_skrk_create").val(),
-            no_imb: $("#no_imb_create").val(),
-            nama_pengadu: $("#nama_pengadu_create").val(),
-            alamat_pengadu: $("#alamat_pengadu_create").val(),
-            kelurahan: $("#kelurahan_create").val(),
-            kecamatan: $("#kecamatan_create").val(),
-            nama_teradu: $("#nama_teradu_create").val(),
-            alamat_teradu: $("#alamat_teradu_create").val(),
-        }
-    } else if(param == 'edit') {
-        var data = {
-            id: $("#id").val(),
-            no_skrk: $("#no_skrk").val(),
-            no_imb: $("#no_imb").val(),
-            nama_pengadu: $("#nama_pengadu").val(),
-            alamat_pengadu: $("#alamat_pengadu").val(),
-            kelurahan: $("#kelurahan").val(),
-            kecamatan: $("#kecamatan").val(),
-            nama_teradu: $("#nama_teradu").val(),
-            alamat_teradu: $("#alamat_teradu").val(),
-        }
-    }
-    const fd = new FormData(document.getElementById('input-pengaduan'));
+    // console.log($('#id_create').val());
+    // console.log($('#id').val());
+    // if (param == 'create') {
+    //     var data = {
+    //         id: $("#id_create").val(),
+    //         no_skrk: $("#no_skrk_create").val(),
+    //         no_imb: $("#no_imb_create").val(),
+    //         nama_pengadu: $("#nama_pengadu_create").val(),
+    //         alamat_pengadu: $("#alamat_pengadu_create").val(),
+    //         kelurahan: $("#kelurahan_create").val(),
+    //         kecamatan: $("#kecamatan_create").val(),
+    //         nama_teradu: $("#nama_teradu_create").val(),
+    //         alamat_teradu: $("#alamat_teradu_create").val(),
+    //     }
+    // } else if(param == 'edit') {
+    //     var data = {
+    //         id: $("#id").val(),
+    //         no_skrk: $("#no_skrk").val(),
+    //         no_imb: $("#no_imb").val(),
+    //         nama_pengadu: $("#nama_pengadu").val(),
+    //         alamat_pengadu: $("#alamat_pengadu").val(),
+    //         kelurahan: $("#kelurahan").val(),
+    //         kecamatan: $("#kecamatan").val(),
+    //         nama_teradu: $("#nama_teradu").val(),
+    //         alamat_teradu: $("#alamat_teradu").val(),
+    //     }
+    // }
+    const fd = new FormData(document.getElementById('input-tabg'));
     console.log(data)
     $.ajax({
         type: "POST",
@@ -690,7 +765,7 @@
           "Authorization":"Bearer " + localStorage.getItem("token")
         },
         data: fd,
-        url: baseUrl+"api/pengaduan/store_json",
+        url: baseUrl+"api/tabg/store_json",
         success: function (response) {
           // res = response;
           // console.log(res);
@@ -738,6 +813,48 @@
         }
     });
   }
+  $("#input-search").on("submit", function (e) {
+    var dataString = $(this).serialize();
+    console.log(dataString);
+    $.ajax({
+      type: "GET",
+      url: baseUrl+"api/tabg/search_json",
+      data: dataString,
+      success: function () {
+        // Display message back to the user here
+        // search()
+        $('#example2').DataTable({
+        "bDestroy": true,
+        "paging": true,
+        "lengthChange": false,
+        "searching": true,
+        "ordering": true,
+        "info": true,
+        "autoWidth": false,
+        "responsive": true,
+        "processing": true,
+        "serverSide": false,
+        "ajax": {
+            "url": baseUrl+"api/tabg/search_json?"+dataString,
+            "dataType": "json",
+            "type": "GET",
+            "data":{ _token: "{{csrf_token()}}"}
+        },
+        "columns": [
+            // {data: 'DT_RowIndex', name: 'id'},
+            {data: 'gid', name: 'gid'},
+            {data: 'nama_pemohon'},
+            {data: 'alamat_persil'},
+            {data: 'penggunaan_bangunan'},
+            {data: 'no_telp_pemohon'},
+            {data: 'action', orderable: false, searcable: false}
+        ],
+    });
+      }
+    });
+ 
+    e.preventDefault();
+  });
 </script>
 </body>
 </html>
